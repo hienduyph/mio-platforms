@@ -7,8 +7,8 @@
     "publish-please": "publish-please",
     "prepublish": "publish-please guard",
     "example:dev": "nodemon --exec 'ts-node --inspect -P tsconfig.json' examples/express-server/main.ts",
-    "core:build": "tsc -P packages/miocore/tsconfig.json && rollup -c packages/miocore/rollup.config.ts",
-    "express:build": "tsc -P packages/mioexpress/tsconfig.json && rollup -c packages/mioexpress/rollup.config.ts"
+    "core:build": "rollup -c packages/miocore/rollup.config.ts",
+    "mioserv:build": "rollup -c packages/mioserv/rollup.config.ts"
   },
   "repository": {
     "type": "git",

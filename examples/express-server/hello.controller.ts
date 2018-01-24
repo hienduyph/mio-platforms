@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { Controller, Get } from "mioexpress";
+import { Controller, Get } from "mioserv";
 import { User } from "./users";
 import { AuthRequired } from "./middleware";
 

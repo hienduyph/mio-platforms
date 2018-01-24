@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-import { Server } from "mioexpress";
+import { MioServer } from "mioserv";
 import { Container } from "miocore";
 
 import { HelloController } from "./hello.controller";
@@ -10,7 +10,7 @@ const container = new Container();
 container.register({ target: Home, implementation: QHome });
 container.register({ target: Address, implementation: QAddress });
 container.register(User);
-const server = new Server(container);
+const server = new MioServer(container);
 
 // register list of controller
 server.register([

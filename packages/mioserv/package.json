@@ -1,10 +1,10 @@
 {
-  "name": "mioexpress",
-  "version": "0.0.3",
+  "name": "mioserv",
+  "version": "0.0.4",
   "description": "Build expressjs app with Dependency Injection",
   "license": "MIT",
-  "main": "dist/mioexpress.cjs.js",
-  "typings": "dist/types/mioexpress.d.ts",
+  "main": "dist/mioserv.cjs.js",
+  "typings": "dist/types/mioserv.d.ts",
   "author": "Hien Pham <hienduyph@gmail.com>",
   "repository": {
     "type": "git",

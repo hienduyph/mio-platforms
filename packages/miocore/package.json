@@ -1,10 +1,10 @@
 {
   "name": "miocore",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A high level Inversify framework for building TypeScript/JavaScript",
   "main": "dist/miocore.umd.js",
   "module": "dist/miocore.es5.js",
-  "typings": "dist/types/miocore.d.ts",
+  "typings": "src/miocore.ts",
   "author": "Hien Pham <hienduyph@gmail.com>",
   "repository": {
     "type": "git",

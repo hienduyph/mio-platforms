@@ -11,7 +11,7 @@ import { ConfigFunction, RoutingConfig } from "./config";
 /**
  * Connect express server to inversify container
  */
-export class Server {
+export class MioServer {
   private router: Router;
   private container: Container;
   private app: Application;
@@ -49,7 +49,7 @@ export class Server {
    *
    * @param fn Function in which app-level middleware can be registered.
    */
-  public setConfig(fn: ConfigFunction): Server {
+  public setConfig(fn: ConfigFunction): MioServer {
     this.configFn = fn;
     return this;
   }
@@ -62,7 +62,7 @@ export class Server {
    *
    * @param fn Function in which app-level error handlers can be registered.
    */
-  public setErrorConfig(fn: ConfigFunction): Server {
+  public setErrorConfig(fn: ConfigFunction): MioServer {
     this.errorConfigFn = fn;
     return this;
   }

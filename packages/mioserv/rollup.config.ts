@@ -11,7 +11,7 @@ const pkg = require(root("./package.json"));
 const libraryName = pkg.name;
 
 export default {
-  input: root(`./src/mioexpress.ts`),
+  input: root(`./src/mioserv.ts`),
   output: [
     { file: root(pkg.main), name: camelCase(libraryName), format: "cjs" }
   ],

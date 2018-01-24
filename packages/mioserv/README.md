@@ -1,4 +1,4 @@
-# mioexpress
+# mioserv
 Use Dependency Injection (DI) to build the express app.
 
 ## Motivations
@@ -6,9 +6,9 @@ I love inversify and the simplicity of this. But the `express-utils` of inversif
 
 ## Installation
 ```bash
-$ yarn add mioexpress
+$ yarn add mioserv
 # or
-$ npm install --save mioexpress
+$ npm install --save mioserv
 ```
 
 ### Step 1: Define services with interfaces
@@ -35,7 +35,7 @@ export class UserMongoRepo implements UserRepo {
 // user.controller.ts
 
 import { Request, Response } from "express";
-import { Controller, Get } from "mioexpress";
+import { Controller, Get } from "mioserv";
 
 import { UserRepo } from "./user.repo";
 
@@ -58,7 +58,7 @@ export class UserController {
 ```typescript
 // main.ts
 import { Container } from "miocore";
-import { Server } from "mioexpress";
+import { MioServer } from "mioserv";
 
 import { UserRepo, UserMongoRepo } from "./user.repo";
 import { UserController } from "./user.controller";
@@ -67,7 +67,7 @@ const container = new Container();
 container.register({ target: UserRepo, implementation: UserMongoRepo });
 
 // create server
-const server = new Server(container);
+const server = new MioServer(container);
 // register the controller
 server.register([
   UserController
