@@ -1,6 +1,6 @@
 {
   "name": "mioc-core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Micro Inverse of Control Framework core",
   "main": "dist/mioc-core.umd.js",
   "module": "dist/mioc-core.es5.js",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/hienduyph/mioc#readme",
   "dependencies": {
-    "inversify": "*"
+    "inversify": "*",
+    "reflect-metadata": "*"
   }
 }
