@@ -1,0 +1,24 @@
+{
+  "name": "mioc-core",
+  "version": "0.0.1",
+  "description": "Micro Inverse of Control Framework core",
+  "main": "dist/mioc-core.umd.js",
+  "module": "dist/mioc-core.es5.js",
+  "typings": "dist/types/mioc-core.d.ts",
+  "author": "Hien Pham <hienduyph@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hienduyph/mioc.git"
+  },
+  "keywords": [
+    "InversifyJS",
+    "Inverse of Control"
+  ],
+  "bugs": {
+    "url": "https://github.com/hienduyph/mioc/issues"
+  },
+  "homepage": "https://github.com/hienduyph/mioc#readme",
+  "dependencies": {
+    "inversify": "*"
+  }
+}
