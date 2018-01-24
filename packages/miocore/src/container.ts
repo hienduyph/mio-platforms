@@ -6,7 +6,8 @@ import {
   RegisterInterface,
   isAbstractInterface,
   isConstantInterface,
-  isClassInterface
+  isClassInterface,
+  InjectIdentifier
 } from "./register_payload";
 
 
@@ -42,5 +43,20 @@ export class Container extends InversifyContainer {
       this.bind<T>(token).to(data.implementation);
     }
     return this;
+  }
+
+  /**
+   * get the instance
+   */
+  public get<T>(identifier: InjectIdentifier<T>): T {
+    // get instance by inject token
+    if (identifier instanceof InjectToken) {
+      return super.get<T>(identifier.uuid());
+    }
+    // get by class with @Injectable() decorated
+    if (isClassInterface(identifier)) {
+      return super.get<T>(getInjectableMetadata(identifier).uuid());
+    }
+    return super.get<T>(identifier);
   }
 }

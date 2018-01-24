@@ -1,3 +1,5 @@
+import { interfaces } from "inversify";
+
 import { InjectToken } from "./inject_token";
 import { getInjectableMetadata } from "./injectable";
 
@@ -16,6 +18,8 @@ export interface ConstantInterface {
 }
 
 export type RegisterInterface<T> = AbstractInterface<T> | ClassInterface | ConstantInterface;
+
+export type InjectIdentifier<T> = InjectToken | ClassInterface | interfaces.ServiceIdentifier<T>;
 
 /**
  * Check an provide is a valid abstract-implementation pair class
@@ -51,7 +55,7 @@ export function isAbstractInterface(data: RegisterInterface<any>): data is Abstr
  * Check an provide is a valid abstract-implementation pair class
  * @param data register data
  */
-export function isClassInterface(data: RegisterInterface<any>): data is ClassInterface {
+export function isClassInterface(data: RegisterInterface<any> | InjectIdentifier<any>): data is ClassInterface {
   if (data) {
     const token = getInjectableMetadata(data);
     if (token instanceof InjectToken) {

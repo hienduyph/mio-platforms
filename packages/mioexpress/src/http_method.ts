@@ -1,5 +1,5 @@
 import { Middleware } from "./middleware";
-import { InjectToken } from "mioc-core";
+import { InjectToken } from "miocore";
 
 /**
  * DI Token for method endpoint handler

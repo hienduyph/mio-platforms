@@ -1,6 +1,6 @@
 import { decorate } from "inversify";
 
-import { InjectToken, Injectable } from "mioc-core";
+import { InjectToken, Injectable } from "miocore";
 import { Middleware } from "./middleware";
 
 /**

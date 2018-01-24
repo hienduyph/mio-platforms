@@ -11,7 +11,7 @@ const pkg = require(root("./package.json"));
 const libraryName = pkg.name;
 
 export default {
-  input: root(`./src/mioc-core.ts`),
+  input: root(`./src/miocore.ts`),
   output: [
     { file: root(pkg.main), name: camelCase(libraryName), format: "umd" },
     { file: root(pkg.module), format: "es" },

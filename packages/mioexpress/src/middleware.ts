@@ -1,6 +1,6 @@
 import { decorate } from "inversify";
 import { Request, Response, NextFunction } from "express";
-import { InjectToken, Injectable } from "mioc-core";
+import { InjectToken, Injectable } from "miocore";
 
 const MIDDLEWARE_INJECT_TOKEN = new InjectToken("Middleware");
 

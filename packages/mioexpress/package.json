@@ -1,0 +1,28 @@
+{
+  "name": "mioexpress",
+  "version": "0.0.3",
+  "description": "Build expressjs app with Dependency Injection",
+  "license": "MIT",
+  "main": "dist/mioexpress.cjs.js",
+  "typings": "dist/types/mioexpress.d.ts",
+  "author": "Hien Pham <hienduyph@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hienduyph/mio-platforms.git"
+  },
+  "keywords": [
+    "InversifyJS",
+    "Inverse of Control",
+    "express"
+  ],
+  "bugs": {
+    "url": "https://github.com/hienduyph/mio-platforms/issues"
+  },
+  "homepage": "https://github.com/hienduyph/mio-platforms#readme",
+  "dependencies": {
+    "express": "*",
+    "miocore": "*",
+    "inversify": "*",
+    "reflect-metadata": "*"
+  }
+}

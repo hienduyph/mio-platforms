@@ -1,4 +1,4 @@
-import { Injectable } from "mioc-core";
+import { Injectable } from "miocore";
 
 @Injectable()
 export abstract class Address {

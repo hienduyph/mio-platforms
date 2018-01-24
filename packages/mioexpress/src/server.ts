@@ -1,7 +1,7 @@
 import { Router, Application, Request, Response, RequestHandler, NextFunction } from "express";
 const express = require("express");
 
-import { Container, getInjectableMetadata } from "mioc-core";
+import { Container, getInjectableMetadata } from "miocore";
 import { getControllerMetadata } from "./controller";
 import { Middleware, MiddlewareCore } from "./middleware";
 import { getControllerMethodMetadata } from "./http_method";

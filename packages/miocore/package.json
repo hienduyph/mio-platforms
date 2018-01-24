@@ -1,0 +1,27 @@
+{
+  "name": "miocore",
+  "version": "0.0.2",
+  "description": "A high level Inversify framework for building TypeScript/JavaScript",
+  "main": "dist/miocore.umd.js",
+  "module": "dist/miocore.es5.js",
+  "typings": "dist/types/miocore.d.ts",
+  "author": "Hien Pham <hienduyph@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hienduyph/mio-platforms.git"
+  },
+  "keywords": [
+    "InversifyJS",
+    "Inverse of Control",
+    "TypeScript",
+    "mio"
+  ],
+  "bugs": {
+    "url": "https://github.com/hienduyph/mio-platforms/issues"
+  },
+  "homepage": "https://github.com/hienduyph/mio-platforms#readme",
+  "dependencies": {
+    "inversify": "*",
+    "reflect-metadata": "*"
+  }
+}

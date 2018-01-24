@@ -1,16 +1,18 @@
 {
-  "name": "mioc",
+  "name": "mio-platforms",
   "version": "0.0.1",
   "description": "Micro Inverse of Control frame for build the javascript application",
   "scripts": {
     "test": "gulp",
     "publish-please": "publish-please",
     "prepublish": "publish-please guard",
-    "example:dev": "nodemon --exec 'ts-node --inspect -P tsconfig.json' examples/express-server/main.ts"
+    "example:dev": "nodemon --exec 'ts-node --inspect -P tsconfig.json' examples/express-server/main.ts",
+    "core:build": "tsc -P packages/miocore/tsconfig.json && rollup -c packages/miocore/rollup.config.ts",
+    "express:build": "tsc -P packages/mioexpress/tsconfig.json && rollup -c packages/mioexpress/rollup.config.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hienduyph/mioc.git"
+    "url": "git+https://github.com/hienduyph/mio-platforms.git"
   },
   "keywords": [
     "InversifyJS",
@@ -20,9 +22,9 @@
   "author": "Hien Pham <hienduyph@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hienduyph/mioc/issues"
+    "url": "https://github.com/hienduyph/mio-platforms/issues"
   },
-  "homepage": "https://github.com/hienduyph/mioc#readme",
+  "homepage": "https://github.com/hienduyph/mio-platforms#readme",
   "devDependencies": {
     "@types/express": "^4.11.0",
     "@types/sinon": "^4.1.3",

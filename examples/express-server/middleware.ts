@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { MiddlewareCore, Middleware } from "mioc-express";
+import { MiddlewareCore, Middleware } from "mioexpress";
 
 import { User } from "./users";
 

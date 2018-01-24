@@ -11,13 +11,13 @@ const pkg = require(root("./package.json"));
 const libraryName = pkg.name;
 
 export default {
-  input: root(`./src/mioc-express.ts`),
+  input: root(`./src/mioexpress.ts`),
   output: [
     { file: root(pkg.main), name: camelCase(libraryName), format: "cjs" }
   ],
   sourcemap: true,
   // Indicate here external modules you don"t wanna include in your bundle (i.e.: "lodash")
-  external: [ "inversify", "express", "mioc-core" ],
+  external: [ "inversify", "express", "miocore" ],
   watch: {
     include: "src/**",
   },

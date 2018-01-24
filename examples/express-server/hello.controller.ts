@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { Controller, Get } from "mioc-express";
+import { Controller, Get } from "mioexpress";
 import { User } from "./users";
 import { AuthRequired } from "./middleware";
 

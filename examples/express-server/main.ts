@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
-import { Server } from "mioc-express";
-import { Container } from "mioc-core";
+import { Server } from "mioexpress";
+import { Container } from "miocore";
 
 import { HelloController } from "./hello.controller";
 import { User, QHome, QAddress, Address, Home } from "./users";
