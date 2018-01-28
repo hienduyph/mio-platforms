@@ -60,7 +60,7 @@ export function isAbstractInterface(data: RegisterInterface<any>): data is Abstr
 export function isClassInterface(
   data: RegisterInterface<any> | InjectIdentifier<any>,
 ): data is ClassInterface {
-  if (data) {
+  if (typeof(data) === "function" || typeof(data) === "object") {
     const token = getInjectableMetadata(data);
     if (token instanceof InjectToken) {
       return true;

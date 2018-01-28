@@ -74,8 +74,7 @@ export class MioServer {
     if (this.configFn) {
       this.configFn.apply(undefined, [this.app]);
     }
-
-    this.registerControllers();
+    this.registerControllers();  
 
     // register error handlers after controllers
     if (this.errorConfigFn) {

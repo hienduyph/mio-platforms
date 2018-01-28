@@ -14,9 +14,8 @@ const server = new MioServer(container);
 
 // register list of controller
 server.register([
-  HelloController
+  HelloController,
 ]);
-
 const app = server.build();
 
 const port = +(process.env.PORT || 9999);
