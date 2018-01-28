@@ -67,6 +67,8 @@ export class Container extends InversifyContainer {
         throw new Error(`Invalid register payload, must bind the value for ${data.useAbstract}`);
       }
       this.bind<T>(token).toConstantValue(exist);
+    } else if (data.useConstant) {
+      this.bind<T>(token).toConstantValue(data.useConstant);
     } else {
       throw new Error(`Must have class for implemetation or abstract for useAbstract`);
     }

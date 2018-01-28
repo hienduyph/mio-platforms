@@ -7,6 +7,7 @@ export interface AbstractInterface<T> {
   target: T;
   implementation?: any;
   useAbstract?: any;
+  useConstant?: any;
 }
 
 export type ClassInterface = { new(...args: any[]): any; };
