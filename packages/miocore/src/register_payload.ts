@@ -5,7 +5,8 @@ import { getInjectableMetadata } from "./injectable";
 
 export interface AbstractInterface<T> {
   target: T;
-  implementation: any;
+  implementation?: any;
+  useAbstract?: any;
 }
 
 export type ClassInterface = { new(...args: any[]): any; };
@@ -55,7 +56,9 @@ export function isAbstractInterface(data: RegisterInterface<any>): data is Abstr
  * Check an provide is a valid abstract-implementation pair class
  * @param data register data
  */
-export function isClassInterface(data: RegisterInterface<any> | InjectIdentifier<any>): data is ClassInterface {
+export function isClassInterface(
+  data: RegisterInterface<any> | InjectIdentifier<any>,
+): data is ClassInterface {
   if (data) {
     const token = getInjectableMetadata(data);
     if (token instanceof InjectToken) {
