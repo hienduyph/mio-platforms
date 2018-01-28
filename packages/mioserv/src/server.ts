@@ -3,9 +3,8 @@ const express = require("express");
 
 import { Container, getInjectableMetadata } from "miocore";
 import { getControllerMetadata } from "./controller";
-import { Middleware, MiddlewareCore } from "./middleware";
+import { Middleware, MiddlewareCore, getMiddlewareMetadata } from "./middleware";
 import { getControllerMethodMetadata } from "./http_method";
-import { getMiddlewareMetadata } from "./middleware";
 import { ConfigFunction, RoutingConfig } from "./config";
 
 /**
@@ -31,19 +30,19 @@ export class MioServer {
     container: Container,
     customRouter?: Router,
     routingConfig?: RoutingConfig,
-    customApp?: Application
+    customApp?: Application,
   ) {
     this.container = container;
     this.router = customRouter || Router();
     this.routingConfig = routingConfig || {
-      rootPath: "/"
+      rootPath: "/",
     };
     this.app = customApp || express();
   }
 
   /**
    * Sets the configuration function to be applied to the application.
-   * Note that the config function is not actually executed until a call to InversifyExpresServer.build().
+   * Note that the config function is not actually executed until a call to build().
    *
    * This method is chainable.
    *
@@ -56,7 +55,7 @@ export class MioServer {
 
   /**
    * Sets the error handler configuration function to be applied to the application.
-   * Note that the error config function is not actually executed until a call to InversifyExpresServer.build().
+   * Note that the error config function is not actually executed until a call to build().
    *
    * This method is chainable.
    *
@@ -124,7 +123,7 @@ export class MioServer {
             `${controllerMetadata.prefix}${metadata.path}`,
             ...controllerMiddleware,
             ...routeMiddleware,
-            handler
+            handler,
           );
         });
       }
@@ -144,7 +143,7 @@ export class MioServer {
         this.container.bind<any>(middlewareKey).to(middlewareItem as any);
       }
       const middlewareInstance = this.container.get<MiddlewareCore>(middlewareKey);
-      return (req: Request, res: Response, next: NextFunction ) => {
+      return (req: Request, res: Response, next: NextFunction) => {
         middlewareInstance.handle(req, res, next);
       };
     });

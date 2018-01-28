@@ -17,7 +17,7 @@ export const getInjectableMetadata = (target: any) =>
  * @param target class target
  */
 export function Injectable() {
-  return function(target: any) {
+  return function (target: any) {
     // get type of each params
     const paramsTypes = getConstructorParamTypes(target);
     // get injectable metadata key for each params

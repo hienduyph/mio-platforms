@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/hienduyph/mio-platforms#readme",
   "dependencies": {
-    "inversify": "*",
-    "reflect-metadata": "*"
+    "inversify": "^4.10.0",
+    "reflect-metadata": "0.1.12"
   }
 }
