@@ -1,5 +1,6 @@
+import { InjectToken, NewAble } from "miocore";
+
 import { Middleware } from "./middleware";
-import { InjectToken } from "miocore";
 
 /**
  * DI Token for method endpoint handler
@@ -75,33 +76,33 @@ export function Delete(path: string, ...middleware: Middleware[]): MethodDecorat
  * @param path The relative path of the endpoint, the prefix path of the controller will be added.
  * @param middleware List of middleware, optional
  */
-export function Method(method: string, path: string, ...middleware: Middleware[]): MethodDecorator {
-  return function (target: any, key: string | symbol, _: any) {
-    let metadata: MethodMetadata = { key, method, middleware, path, target };
+export function Method<T>(method: string, path: string, ...middleware: Middleware[]) {
+  return function (target: NewAble<T>, key: string | symbol, _: any) {
+    const metadata: MethodMetadata<T> = { key, method, middleware, path, target };
 
     // add all metadata of handler to the constructor
-    let metadataList: MethodMetadata[] = [];
+    let metadataList: MethodMetadata<T>[] = [];
     if (!Reflect.hasOwnMetadata(METHOD_INJECT_TOKEN, target.constructor)) {
       Reflect.defineMetadata(METHOD_INJECT_TOKEN, metadataList, target.constructor);
     } else {
       metadataList = Reflect.getOwnMetadata(METHOD_INJECT_TOKEN, target.constructor);
     }
     metadataList.push(metadata);
-  };
+  } as MethodDecorator;
 }
 
-export interface MethodMetadata {
+export interface MethodMetadata<T> {
   method: string;
   key: string | symbol;
   path: string;
   middleware: Middleware[];
-  target: any;
+  target: NewAble<T>;
 }
 
 /**
  * Get metadata of the controller
  */
-export const getControllerMethodMetadata = (constructor: any) => Reflect.getOwnMetadata(
+export const getControllerMethodMetadata = <T>(constructor: NewAble<T>) => Reflect.getOwnMetadata(
   METHOD_INJECT_TOKEN,
-  constructor
-) as MethodMetadata[];
+  constructor,
+) as MethodMetadata<T>[];

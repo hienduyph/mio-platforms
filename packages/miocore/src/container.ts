@@ -27,7 +27,7 @@ export class Container extends InversifyContainer {
     }
     if (isClassInterface(data)) {
       // class case
-      const token = getInjectableMetadata(data).uuid();
+      const token = getInjectableMetadata<T>(data).uuid();
       this.bind<T>(token).to(data);
     } else if (isAbstractInterface(data)) {
       return this.bindAbstractClass(data);
@@ -55,13 +55,13 @@ export class Container extends InversifyContainer {
    */
   private bindAbstractClass<T>(data: AbstractInterface<T>) {
     // get inject token from target abstract class
-    const token = getInjectableMetadata(data.target).uuid();
+    const token = getInjectableMetadata<T>(data.target).uuid();
     // use an implementation
     if (data.implementation) {
       this.bind<T>(token).to(data.implementation);
     } else if (data.useAbstract) {
       // get another abstract that has already bound
-      const anotherToken = getInjectableMetadata(data.useAbstract).uuid();
+      const anotherToken = getInjectableMetadata<T>(data.useAbstract).uuid();
       const exist = this.get<T>(anotherToken);
       if (!exist) {
         throw new Error(`Invalid register payload, must bind the value for ${data.useAbstract}`);

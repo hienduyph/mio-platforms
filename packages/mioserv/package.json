@@ -1,6 +1,6 @@
 {
   "name": "mioserv",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "Build expressjs app with Dependency Injection",
   "license": "MIT",
   "main": "dist/mioserv.cjs.js",
@@ -21,7 +21,7 @@
   "homepage": "https://github.com/hienduyph/mio-platforms#readme",
   "dependencies": {
     "express": "^4.16.2",
-    "miocore": "^0.0.6",
+    "miocore": "^0.0.9",
     "inversify": "^4.10.0",
     "reflect-metadata": "0.1.12"
   }

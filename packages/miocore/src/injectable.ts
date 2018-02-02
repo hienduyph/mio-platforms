@@ -2,6 +2,7 @@ import { injectable, decorate, inject } from "inversify";
 
 import { InjectToken } from "./inject_token";
 import { getConstructorParamTypes } from "./utils";
+import { NewAble } from "./newable";
 
 export const INJECTABLE_META_KEY = new InjectToken("Injectable");
 
@@ -9,19 +10,19 @@ export const INJECTABLE_META_KEY = new InjectToken("Injectable");
  * Get metadata of @Injectable() decorator
  * @param target prototype or class constructor
  */
-export const getInjectableMetadata = (target: any) =>
+export const getInjectableMetadata = <T> (target: NewAble<T>) =>
   Reflect.getMetadata(INJECTABLE_META_KEY, target) as InjectToken;
 
 /**
  * Wrapper a class or abstract di
  * @param target class target
  */
-export function Injectable() {
-  return function (target: any) {
+export function Injectable<T>() {
+  return function (target: NewAble<T>) {
     // get type of each params
     const paramsTypes = getConstructorParamTypes(target);
     // get injectable metadata key for each params
-    const metadataKeys: InjectToken[] = paramsTypes.map((constructor: any) => {
+    const metadataKeys: InjectToken[] = paramsTypes.map((constructor) => {
       return getInjectableMetadata(constructor);
     });
 

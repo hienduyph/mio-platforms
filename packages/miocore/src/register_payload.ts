@@ -2,12 +2,13 @@ import { interfaces } from "inversify";
 
 import { InjectToken } from "./inject_token";
 import { getInjectableMetadata } from "./injectable";
+import { NewAble } from "./newable";
 
 export interface AbstractInterface<T> {
-  target: T;
-  implementation?: any;
-  useAbstract?: any;
-  useConstant?: any;
+  target: NewAble<T>;
+  implementation?: NewAble<T>;
+  useAbstract?: NewAble<T>;
+  useConstant?: T;
 }
 
 export type ClassInterface = { new(...args: any[]): any; };
@@ -60,11 +61,15 @@ export function isAbstractInterface(data: RegisterInterface<any>): data is Abstr
 export function isClassInterface(
   data: RegisterInterface<any> | InjectIdentifier<any>,
 ): data is ClassInterface {
-  if (typeof(data) === "function" || typeof(data) === "object") {
+  if (canNew(data)) {
     const token = getInjectableMetadata(data);
     if (token instanceof InjectToken) {
       return true;
     }
   }
   return false;
+}
+
+function canNew(target: any): target is NewAble<any> {
+  return typeof(target) === "function" || typeof(target) === "object";
 }

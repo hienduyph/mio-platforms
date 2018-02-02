@@ -1,7 +1,8 @@
 import { Router, Application, Request, Response, RequestHandler, NextFunction } from "express";
 const express = require("express");
+import { Container, getInjectableMetadata, NewAble } from "miocore";
+import { join } from "path";
 
-import { Container, getInjectableMetadata } from "miocore";
 import { getControllerMetadata } from "./controller";
 import { Middleware, MiddlewareCore, getMiddlewareMetadata } from "./middleware";
 import { getControllerMethodMetadata } from "./http_method";
@@ -19,7 +20,7 @@ export class MioServer {
   private routingConfig: RoutingConfig;
 
   // store the list of register controller
-  private registeredControllers: any[] = [];
+  private registeredControllers: NewAble<any>[] = [];
 
   /**
    * Wrapper for the express server.
@@ -87,7 +88,7 @@ export class MioServer {
   /**
    * Register the controllers list to the express app
    */
-  public register(controllers: any[] = []) {
+  public register(controllers: NewAble<any>[] = []) {
     // @todo: must resolve unique controller
     this.registeredControllers.push(...controllers);
   }
@@ -102,24 +103,23 @@ export class MioServer {
       if (this.container.isBound(name)) {
         throw new Error(`Two controllers cannot have the same name: ${name}`);
       }
-      // bind the controller instance to name
       this.container.register(constructor);
       return this.container.get(name);
     });
 
     controllers.forEach((controller: any) => {
-      const controllerMetadata = getControllerMetadata(controller.constructor);
-      const methodMetadata = getControllerMethodMetadata(controller.constructor);
-      if (controllerMetadata && methodMetadata) {
+      const controllerMetadata = getControllerMetadata<any>(controller.constructor);
+      const methodMetadatas = getControllerMethodMetadata<any>(controller.constructor);
+      if (controllerMetadata && methodMetadatas) {
         const controllerMiddleware = this.resolveMidleware(...controllerMetadata.middlewares);
 
-        methodMetadata.forEach((metadata) => {
+        methodMetadatas.forEach((metadata) => {
           // get the main handler of this method
           const handler: RequestHandler = controller[metadata.key].bind(controller);
           const routeMiddleware = this.resolveMidleware(...metadata.middleware);
           // assign the method with middlware
           (this.router as any)[metadata.method](
-            `${controllerMetadata.prefix}${metadata.path}`,
+            this.resolvePath(controllerMetadata.prefix, metadata.path),
             ...controllerMiddleware,
             ...routeMiddleware,
             handler,
@@ -146,5 +146,19 @@ export class MioServer {
         middlewareInstance.handle(req, res, next);
       };
     });
+  }
+
+  /**
+   * Resolve path for api endpoint
+   */
+  private resolvePath(prefix: string, path: string) {
+    let result = join(prefix, path);
+    result = result
+      // remove slash first
+      .replace(new RegExp("(^\/)"), "")
+      // remove stash end
+      .replace(new RegExp("(\/$)"), "");
+    // append slash first
+    return `/${result}`;
   }
 }

@@ -1,6 +1,6 @@
 import { decorate } from "inversify";
 
-import { InjectToken, Injectable } from "miocore";
+import { InjectToken, Injectable, NewAble } from "miocore";
 import { Middleware } from "./middleware";
 
 /**
@@ -19,21 +19,21 @@ export interface ControllerMetadata {
  * @param path prefix path of this controller
  * @param middleware list of middlewares
  */
-export function Controller(
+export function Controller<T>(
   metadata: {
     prefix: string,
-    middlewares?: Middleware[]
-  }
+    middlewares?: Middleware[],
+  },
 ) {
-  return function (target: any) {
+  return function (target: NewAble<T>) {
     const { prefix, middlewares } = metadata;
-    let currentMetadata: ControllerMetadata = {
-      middlewares: middlewares || [],
+    const currentMetadata: ControllerMetadata = {
       prefix,
-      target
+      target,
+      middlewares: middlewares || [],
     };
     // we decorate injetable for your
-    decorate(Injectable(), target);
+    decorate(Injectable() as ClassDecorator, target);
     // attach the metadata key to the current controller target
     Reflect.defineMetadata(CONTROLLER_INJECT_TOKEN, currentMetadata, target);
     return target;
@@ -43,7 +43,7 @@ export function Controller(
 /**
  * Get metadata of the controller
  */
-export const getControllerMetadata = (constructor: any) => Reflect.getOwnMetadata(
+export const getControllerMetadata = <T> (constructor: NewAble<T>) => Reflect.getOwnMetadata(
     CONTROLLER_INJECT_TOKEN,
-    constructor
+    constructor,
 ) as ControllerMetadata;

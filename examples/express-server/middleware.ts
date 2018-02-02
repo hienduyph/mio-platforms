@@ -5,10 +5,19 @@ import { User } from "./users";
 
 @Middleware()
 export class AuthRequired implements MiddlewareCore {
-  constructor(private user: User) {}
+  protected role = "user";
+
+  constructor(protected user: User) {}
 
   public handle(_: Request, __: Response, next: NextFunction) {
+    console.log(this.role);
     console.log("middleware run", this.user);
     next();
   }
 }
+
+@Middleware()
+export class AdminRequired extends AuthRequired {
+  protected role = "admin";
+}
+

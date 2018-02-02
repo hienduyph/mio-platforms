@@ -1,6 +1,6 @@
 {
   "name": "miocore",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "A high level Inversify framework for building TypeScript/JavaScript",
   "main": "dist/miocore.umd.js",
   "module": "dist/miocore.es5.js",

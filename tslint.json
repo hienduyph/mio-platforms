@@ -1,6 +1,16 @@
 {
   "extends": ["tslint-config-airbnb"],
   "rules": {
-    "quotemark": [true, "double", "avoid-escape"]
+    "quotemark": [true, "double", "avoid-escape"],
+    "function-name": [
+      true,
+      {
+        "function-regex": "^[a-zA-Z$][\\w\\d]+$",
+        "method-regex": "^[a-zA-Z$][\\w\\d]+$",
+        "private-method-regex": "^[a-zA-Z$][\\w\\d]+$",
+        "protected-method-regex": "^[a-zA-Z$][\\w\\d]+$",
+        "static-method-regex": "^[a-zA-Z$][\\w\\d]+$"
+      }
+    ]
   }
 }
