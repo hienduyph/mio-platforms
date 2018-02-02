@@ -1,5 +1,5 @@
 import { decorate } from "inversify";
-import { Request, Response, NextFunction } from "express";
+import { RequestHandler, ErrorRequestHandler } from "express";
 import { InjectToken, Injectable, NewAble } from "miocore";
 
 const MIDDLEWARE_INJECT_TOKEN = new InjectToken("Middleware");
@@ -31,6 +31,6 @@ export interface MiddlewareCore {
   /**
    * Handle the http request
    */
-  handle: (req: Request, resp: Response, next: NextFunction) => any;
+  handle: RequestHandler | ErrorRequestHandler;
 }
 

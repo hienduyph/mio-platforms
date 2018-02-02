@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
 import { Controller, Get } from "mioserv";
 import { User } from "./users";
@@ -20,5 +20,10 @@ export class HelloController {
   @Get("/world", AdminRequired)
   public world(_: Request, resp: Response) {
     resp.json(this.user.findOne());
+  }
+
+  @Get("/error")
+  public err(_: Request, __: Response, next: NextFunction) {
+    next(new Error("Just an error"));
   }
 }

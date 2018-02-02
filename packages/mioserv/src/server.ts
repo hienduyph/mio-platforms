@@ -1,4 +1,4 @@
-import { Router, Application, Request, Response, RequestHandler, NextFunction } from "express";
+import { Router, Application, RequestHandler } from "express";
 const express = require("express");
 import { Container, getInjectableMetadata, NewAble } from "miocore";
 import { join } from "path";
@@ -6,7 +6,7 @@ import { join } from "path";
 import { getControllerMetadata } from "./controller";
 import { Middleware, MiddlewareCore, getMiddlewareMetadata } from "./middleware";
 import { getControllerMethodMetadata } from "./http_method";
-import { ConfigFunction, RoutingConfig } from "./config";
+import { RoutingConfig } from "./config";
 
 /**
  * Connect express server to inversify container
@@ -15,12 +15,7 @@ export class MioServer {
   private router: Router;
   private container: Container;
   private app: Application;
-  private configFn: ConfigFunction;
-  private errorConfigFn: ConfigFunction;
   private routingConfig: RoutingConfig;
-
-  // store the list of register controller
-  private registeredControllers: NewAble<any>[] = [];
 
   /**
    * Wrapper for the express server.
@@ -41,64 +36,40 @@ export class MioServer {
     this.app = customApp || express();
   }
 
-  /**
-   * Sets the configuration function to be applied to the application.
-   * Note that the config function is not actually executed until a call to build().
-   *
-   * This method is chainable.
-   *
-   * @param fn Function in which app-level middleware can be registered.
-   */
-  public setConfig(fn: ConfigFunction): MioServer {
-    this.configFn = fn;
-    return this;
-  }
 
   /**
-   * Sets the error handler configuration function to be applied to the application.
-   * Note that the error config function is not actually executed until a call to build().
-   *
-   * This method is chainable.
-   *
-   * @param fn Function in which app-level error handlers can be registered.
+   * Register a middleware into the express app
    */
-  public setErrorConfig(fn: ConfigFunction): MioServer {
-    this.errorConfigFn = fn;
-    return this;
-  }
-
-  /**
-   * Applies all routes and configuration to the server, returning the express application.
-   */
-  public build(): Application {
-    // register server-level middleware before anything else
-    if (this.configFn) {
-      this.configFn.apply(undefined, [this.app]);
-    }
-    this.registerControllers();  
-
-    // register error handlers after controllers
-    if (this.errorConfigFn) {
-      this.errorConfigFn.apply(undefined, [this.app]);
-    }
-
-    return this.app;
+  public useMiddlewares(...middlewares: Middleware[]) {
+    middlewares.forEach((middleware) => {
+      this.app.use(this.routingConfig.rootPath, this.resolveMidleware(middleware));
+    });
   }
 
   /**
    * Register the controllers list to the express app
    */
   public register(controllers: NewAble<any>[] = []) {
-    // @todo: must resolve unique controller
-    this.registeredControllers.push(...controllers);
+    this.registerControllers(controllers);
   }
 
-  private registerControllers() {
-    if (this.registeredControllers.length < 1) {
-      throw new Error("No controllers registered");
+  /**
+   * Get the actual app
+   */
+  public express() {
+    return this.app;
+  }
+
+  /**
+   * Resolve controllers
+   * @param controllers list of controller constructor
+   */
+  private registerControllers(controllers: NewAble<any>[] = []) {
+    if (controllers.length < 1) {
+      return this;
     }
     // loop though all controller constructors and create the controller instance
-    const controllers = this.registeredControllers.map((constructor) => {
+    const controllerInstances = controllers.map((constructor) => {
       const name = getInjectableMetadata(constructor).uuid();
       if (this.container.isBound(name)) {
         throw new Error(`Two controllers cannot have the same name: ${name}`);
@@ -107,7 +78,7 @@ export class MioServer {
       return this.container.get(name);
     });
 
-    controllers.forEach((controller: any) => {
+    controllerInstances.forEach((controller: any) => {
       const controllerMetadata = getControllerMetadata<any>(controller.constructor);
       const methodMetadatas = getControllerMethodMetadata<any>(controller.constructor);
       if (controllerMetadata && methodMetadatas) {
@@ -127,8 +98,8 @@ export class MioServer {
         });
       }
     });
-
     this.app.use(this.routingConfig.rootPath, this.router);
+    return this;
   }
 
   /**
@@ -142,9 +113,7 @@ export class MioServer {
         this.container.bind<any>(middlewareKey).to(middlewareItem as any);
       }
       const middlewareInstance = this.container.get<MiddlewareCore>(middlewareKey);
-      return (req: Request, res: Response, next: NextFunction) => {
-        middlewareInstance.handle(req, res, next);
-      };
+      return middlewareInstance.handle.bind(middlewareInstance);
     });
   }
 
